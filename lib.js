@@ -25,7 +25,20 @@ const listedPrice =
 const calculateTotals =
   listings =>
     carts => {
-      // TODO
+      
+      return carts.reduce((resultArray, crntCart) => {
+          resultArray.push({customer: crntCart.customer, total: totalCalc(listings, crntCart.items)});
+            return resultArray;
+        },[]);
+    }
+
+const totalCalc = (listings,cart) => {
+
+  return listings.reduce((prevTotalOfCart, crntListingItem) => {
+    return cart.reduce((prevTotalForThisItemInCart, crntItemInCart) => {
+      return listedPrice(crntListingItem)(crntItemInCart) + prevTotalForThisItemInCart;
+        },0) + prevTotalOfCart;
+      },0);
     }
 
 module.exports = {
