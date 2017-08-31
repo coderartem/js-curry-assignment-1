@@ -22,6 +22,13 @@ const listedPrice =
 /**
  * transform carts into an array of { customer, total }
  */
+
+ /*
+  Using carts.reduce() method to iterate through array of Carts, then nested crntCart.reduce() to iterate through items 
+  in current Cart, then nested listings.reduce() to iterate through Listing items and call listedPrice() function to match 
+  current item in current Cart with current item in Listing and if they match adding price of item to totalCartCost
+  Adding totalCartCost to object for current Customer and pushing object to resultArray of objects
+ */
 const calculateTotals =
   listings =>
     carts => 
