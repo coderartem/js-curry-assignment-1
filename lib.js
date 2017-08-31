@@ -24,22 +24,16 @@ const listedPrice =
  */
 const calculateTotals =
   listings =>
-    carts => {
-      
-      return carts.reduce((resultArray, crntCart) => {
-          resultArray.push({customer: crntCart.customer, total: totalCalc(listings, crntCart.items)});
-            return resultArray;
-        },[]);
-    }
-
-const totalCalc = (listings,cart) => {
-
-  return listings.reduce((prevTotalOfCart, crntListingItem) => {
-    return cart.reduce((prevTotalForThisItemInCart, crntItemInCart) => {
-      return listedPrice(crntListingItem)(crntItemInCart) + prevTotalForThisItemInCart;
-        },0) + prevTotalOfCart;
-      },0);
-    }
+    carts => 
+      carts.reduce((resultArray, crntCart) => {
+        const totalCartCost = crntCart.items.reduce((prevTotalForCart,crntItemInCart) => {
+          return listings.reduce((prevTotalForItem, crntItemInListing) => {
+            return listedPrice(crntItemInListing)(crntItemInCart) + prevTotalForItem;
+          },0) + prevTotalForCart;
+        },0)
+        resultArray.push({customer: crntCart.customer, total: totalCartCost});
+        return resultArray;
+      },[]);
 
 module.exports = {
   listing,
